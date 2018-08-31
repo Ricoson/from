@@ -1,0 +1,22 @@
+<nz-table #basicTable [nzData]="dataSet">
+  <thead>
+    <tr>
+      <th>用户名</th>
+      <th>邮箱</th>
+      <th>说明</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of this.formservice.formlist">
+      <td>{{data.username}}</td>
+      <td>{{data.email}}</td>
+      <td>{{data.email}}</td>
+      <td>
+        <a>Action 一 {{data.email}}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
