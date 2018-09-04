@@ -13,10 +13,6 @@ import { Router } from '@angular/router';
   selector: 'app-rform',
   templateUrl: './rform.component.html',
   styleUrls: ['./rform.component.css'],
-  providers: [
-    FormService
-  ]
-  
 })
 export class RformComponent {
 
@@ -27,11 +23,13 @@ export class RformComponent {
       this.validateForm.controls[ key ].markAsDirty();
       this.validateForm.controls[ key ].updateValueAndValidity();
     }
-    console.log(value);
-    Object.assign(this.fromService.formlist, value);
-    this.router.navigate(["/listform"]);
+    this.fromservice.formlist.push(value)
+    var RoyW=JSON.stringify(this.fromservice.formlist);
+    localStorage.setItem("express",RoyW)
   };
-
+  skipForm(e){
+    this.router.navigate(["/listform"]);
+  }
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
@@ -64,7 +62,7 @@ export class RformComponent {
     }
   };
 
-  constructor(private fb: FormBuilder,public fromService: FormService,public router: Router ) {
+  constructor(private fb: FormBuilder,public fromservice: FormService,public router: Router ) {
     this.validateForm = this.fb.group({
       userName: [ '', [ Validators.required ], [ this.userNameAsyncValidator ] ],
       email   : [ '', [ Validators.email ] ],

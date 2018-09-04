@@ -1,4 +1,4 @@
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="this.formservice.formlist">
   <thead>
     <tr>
       <th>用户名</th>
@@ -8,14 +8,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of this.formservice.formlist">
-      <td>{{data.username}}</td>
+    <tr *ngFor="let data of this.formservice.formlist; index as i;">
+      <td>{{data.userName}}</td>
       <td>{{data.email}}</td>
-      <td>{{data.email}}</td>
+      <td>{{data.comment}}</td>
       <td>
-        <a>Action 一 {{data.email}}</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>Delete</a>
+        <button nz-button nzType="dashed"  (click)='onClick(i)'>Delete</button>
       </td>
     </tr>
   </tbody>

@@ -1,5 +1,5 @@
-import {FormService} from '../shared/form.service'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core';
+import { FormService } from '../shared/form.service';
 
 @Component({
   selector: 'app-listform',
@@ -8,11 +8,17 @@ import { Component, OnInit } from '@angular/core'
   
 })
 export class ListformComponent implements OnInit {
-  public listform:any={}
   constructor(public formservice:FormService) {}
 
   ngOnInit() {
-    console.log('tt'+this.formservice.formlist.username);
+    if(localStorage.getItem("express")){
+      this.formservice.formlist=JSON.parse(localStorage.getItem("express"))
+    }
   }
-
+  public onClick(i){
+    this.formservice.formlist=this.formservice.formlist.filter(function(element, index, self){return index!=i})
+    var RoyW=JSON.stringify(this.formservice.formlist);
+    localStorage.setItem("express",RoyW)
+  }
+  
 }

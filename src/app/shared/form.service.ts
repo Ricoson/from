@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class FormService {
-  public formlist :any={};
+  public formlist :any=[];
   constructor() {
    }
 }
