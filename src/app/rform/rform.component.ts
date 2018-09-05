@@ -15,6 +15,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./rform.component.css'],
 })
 export class RformComponent {
+//自定义校验方法
+  eamilValidator(control:FormControl){
+    let myreg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.com)$/;
+    let valid=myreg.test(control.value);
+    if(!valid){
+      return { option: '邮箱请以 .com 为后缀！'}
+    }
+  }
+  userValidator(control:FormControl){
+    let  myreg=/^[a-zA-Z0-9\s]{1}[^ ]+[a-zA-Z0-9\s]*$/;
+    let valid=myreg.test(control.value);
+    if(!valid){
+      return { option: '用户名中间不能为空！'}
+    }
+  }
 
   validateForm: FormGroup;
   submitForm = ($event, value) => {
@@ -23,9 +38,12 @@ export class RformComponent {
       this.validateForm.controls[ key ].markAsDirty();
       this.validateForm.controls[ key ].updateValueAndValidity();
     }
+    //用户名字段处理
+    value.userName=value.userName.replace(/(^[\s\n\t]+|[\s\n\t]+$)/g, "");
     this.fromservice.formlist.push(value)
     var RoyW=JSON.stringify(this.fromservice.formlist);
     localStorage.setItem("express",RoyW)
+    console.log(value);
   };
   skipForm(e){
     this.router.navigate(["/listform"]);
@@ -61,16 +79,29 @@ export class RformComponent {
       return { confirm: true, error: true };
     }
   };
+  //
+  manc(event){
+    console.log('男')
+  }
+  womanc(event){
+    console.log('女')
+  }
 
   constructor(private fb: FormBuilder,public fromservice: FormService,public router: Router ) {
     this.validateForm = this.fb.group({
-      userName: [ '', [ Validators.required ], [ this.userNameAsyncValidator ] ],
-      email   : [ '', [ Validators.email ] ],
+      userName: [ '', [ Validators.required,this.userValidator,Validators.minLength(2)], [ this.userNameAsyncValidator ], ],
+      email   : [ '', [ Validators.email,this.eamilValidator],],
       password: [ '', [ Validators.required ] ],
       confirm : [ '', [ this.confirmValidator ] ],
-      comment : [ '', [ Validators.required ] ]
+      comment : [ '', [ Validators.required ] ],
+      man :['帅气的我',[Validators.required]],
+      // man :['',[Validators.required]],
+      // woman :['',[Validators.required]],
+      // radioGrop :fb.group({
+      //   woman:['美美的我'],
+      //   man:["帅气的我"]
+      // })
+
     });
   }
-
-
 }
